@@ -20,7 +20,7 @@ int n = 0;
 class Solution
 {
 public:
-    /* 给定一个三角形的数字阵列，选择一条自顶向下的路径，使得沿途的所有数字之和最小。
+    /* LeetCode120:给定一个三角形的数字阵列，选择一条自顶向下的路径，使得沿途的所有数字之和最小。
     （每一步只能移动到相邻的格子中）
     例如：     【2】
              【3，4】
@@ -51,7 +51,7 @@ public:
 
         return minSum[i][j];
     }
-    /* 给出一个m*n的矩阵，其中每一个格子包含一个非负整数。寻找一条从左上角到右下脚的路径，
+    /* LeetCode64:给出一个m*n的矩阵，其中每一个格子包含一个非负整数。寻找一条从左上角到右下脚的路径，
        是的沿路的数字和最小。（每一步只能右移或者下移）
     */
     int matrixMinPathSum(int n)
@@ -65,7 +65,6 @@ public:
 int _tmain(int argc, _TCHAR* argv[])
 {
     Solution solution;
-    memo = vector<int>(n + 1, -1);
 
     int i = 0, j = 0;
     //输入三角型对应的行数n
@@ -84,7 +83,6 @@ int _tmain(int argc, _TCHAR* argv[])
     int sumMin = solution.triangleMinSum(0, 0);
 
     cout << sumMin << endl;
-
 
     system("pause");
     return 0;
