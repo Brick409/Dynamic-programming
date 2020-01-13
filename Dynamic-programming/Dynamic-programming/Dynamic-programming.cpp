@@ -2,10 +2,12 @@
 //
 #include "stdafx.h"
 #include <iostream>
+#include <cassert>
 #include <vector>
 #include <time.h>
 #include <malloc.h>
 #include <math.h>
+#include <algorithm> //包括min和max函数
 
 using namespace std;
 #define MAX 101
@@ -120,6 +122,66 @@ public:
 
         return preSum[row-1][col-1];
     }
+
+    int integerBreak(int n)
+    {
+        assert(n >= 2);
+        memo = vector<int>(n + 1, -1);
+        return breakInterger(n);
+    }
+private:
+    vector<int> memo;
+    int max3(int a, int b, int c)
+    {
+        return max(a, max(b, c));
+    }
+    //leetcode343：
+    //将n进行分割（至少分割为两部分），可以获得的最大乘积
+    //记忆搜索的方法，自上而下的方法
+    int breakInterger(int n)
+    {
+        if (n==1)
+        {
+            return 1;
+        }
+
+        if (-1 != memo[n])
+        {
+            return memo[n];
+        }
+
+        int res = -1;
+        for (int i = 1; i <= n - 1;i++)
+        {
+            //取这三个乘积中的最大值，对应的i*（n-i）为对应的只分为两个部分的值
+            res=max3(res,i*(n-i),i*breakInterger(n - i));
+        }
+
+        memo[n] = res;
+
+        return res;
+    }
+    //采用自底向上的动态规划的处理方法
+    //将n进行分割（至少分割为两部分），可以获得的最大乘积
+    int breakInterger2(int n)
+    {
+        assert(n >= 2);
+
+        //memo2[i]表示将数字i分割（至少分割成两部分）后得到的最大乘积
+        vector<int> memo2(n + 1, -1);
+        memo2[1] = 1;
+
+        for (int i = 1; i <= n;i++)
+        {
+            //求解memo2[i]
+            for (int j = 1; j < i - 1;j++)
+            {
+                // j+(i-j)
+                memo2[i] = max3(memo2[i], j*(i - j), j * memo2[i - j]);
+            }
+        }
+        return memo[n]
+    }
 };
 
 
@@ -147,13 +209,14 @@ int _tmain(int argc, _TCHAR* argv[])
     cout << sumMin << endl;
 #endif
 
+#if 0
     vector<vector<int> >num =
     { { 1, 3, 1 }, { 1, 5, 1 }, { 4, 2, 1 } };
 
     int sumMinWay = solution.matrixMinPathSum(num);
 
     cout << sumMinWay << endl;
-
+#endif
     system("pause");
     return 0;
 }
